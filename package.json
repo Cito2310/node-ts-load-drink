@@ -1,0 +1,22 @@
+{
+  "name": "ts-load-drink",
+  "version": "0.0.1",
+  "description": "This is an API REST server that is made to manage the amount of drinks to load. This application is developed with node.js.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "v-patch": "npm version patch --no-git-tag-version --force",
+    "v-minor": "npm version minor --no-git-tag-version --force",
+    "v-major": "npm version patch --no-git-tag-version --force",
+    "start": "npm dist/app"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-validator": "^6.14.2",
+    "mongoose": "^6.7.1"
+  }
+}
