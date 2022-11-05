@@ -4,7 +4,7 @@ import { check } from "express-validator";
 import { checkFields } from '../middlewares/checkFields';
 import { checkSizeUnit } from '../middlewares/checks';
 
-import { createProduct } from './productController';
+import { createProduct, getProduct } from './productController';
 
 export const routeProduct = Router();
 
@@ -32,3 +32,5 @@ routeProduct.post("/", [
     
     checkFields
 ], createProduct)
+
+routeProduct.get("/", getProduct)

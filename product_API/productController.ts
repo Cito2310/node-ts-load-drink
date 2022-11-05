@@ -22,3 +22,8 @@ export const createProduct = async (req: Request, res: Response) => {
     newProduct.save()
     return res.json(newProduct)
 }
+
+export const getProduct = async (req: Request, res: Response) => {
+    const products = await Product.find()
+    return res.json(products)
+}
