@@ -14,12 +14,12 @@ export interface IProduct {
 }
 
 const productSchema = new Schema<IProduct>({
-    brand: {type: String, required: true},
-    category: {type: String, required: true},
+    brand: {type: String, required: true, lowercase: true},
+    category: {type: String, required: true, lowercase: true},
     location: {type: Number, required: true},
 
-    flavor: {type: String, required: true},
-    size: {type: String, required: true},
+    flavor: {type: String, required: true, lowercase: true},
+    size: {type: String, required: true, lowercase: true},
 
     amount: {type: Number, default: 0},
 })
