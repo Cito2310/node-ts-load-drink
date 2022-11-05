@@ -20,10 +20,20 @@ export const createProduct = async (req: Request, res: Response) => {
     // create and save new product
     const newProduct = new Product(product)
     newProduct.save()
-    return res.json(newProduct)
+    return res.status(201).json(newProduct)
 }
 
 export const getProduct = async (req: Request, res: Response) => {
     const products = await Product.find()
     return res.json(products)
+}
+
+export const removeProduct = async (req: Request, res: Response) => {
+    const id = req.params.id;
+
+    const existProduct = await Product.findById(id);
+    if (!existProduct) {return res.status(404).json({msg: "product id not exist"})}
+
+    await Product.findByIdAndDelete(id);
+    return res.status(200).json({msg: "product removed successfully"})
 }

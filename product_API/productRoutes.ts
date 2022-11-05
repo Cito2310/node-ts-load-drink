@@ -4,9 +4,11 @@ import { check } from "express-validator";
 import { checkFields } from '../middlewares/checkFields';
 import { checkSizeUnit } from '../middlewares/checks';
 
-import { createProduct, getProduct } from './productController';
+import { createProduct, getProduct, removeProduct } from './productController';
 
 export const routeProduct = Router();
+
+routeProduct.get("/", getProduct)
 
 routeProduct.post("/", [
     check("brand", "brand is required").trim().notEmpty(),
@@ -33,4 +35,7 @@ routeProduct.post("/", [
     checkFields
 ], createProduct)
 
-routeProduct.get("/", getProduct)
+routeProduct.delete("/:id", [
+    check("id", "id must be a MongoId").isMongoId(),
+    checkFields
+], removeProduct)
