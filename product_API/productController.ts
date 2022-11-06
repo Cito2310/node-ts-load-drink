@@ -49,6 +49,9 @@ export const updateProduct = async (req: Request, res: Response) => {
     const existProduct = await Product.findById(id);
     if (!existProduct) {return res.status(404).json({msg: "product id not exist"})}
 
+    // check body not is empty
+    if (Object.keys(product).length === 0) {return res.status(400).json({msg: "body is empty"})}
+    
     // create payload
     let payload = {} as bodyUpdateProduct;
     if (product.brand) { payload.brand = product.brand }
@@ -56,8 +59,25 @@ export const updateProduct = async (req: Request, res: Response) => {
     if (product.flavor) { payload.flavor = product.flavor }
     if (product.location) { payload.location = product.location }
     if (product.size) { payload.size = product.size }
+    
+    // check payload not is empty
+    if (Object.keys(payload).length === 0) {return res.status(400).json({msg: "there is no valid property on the body"})}
+
 
     // update product
     const updateProduct = await Product.findByIdAndUpdate(id, payload, { new: true });
+    return res.status(200).json(updateProduct)
+}
+
+export const modifyAmountProduct = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { newAmount } = req.body;
+
+    // check exist product with id
+    const existProduct = await Product.findById(id);
+    if (!existProduct) {return res.status(404).json({msg: "product id not exist"})}
+
+    // update amount product
+    const updateProduct = await Product.findByIdAndUpdate(id, {amount: newAmount}, { new: true });
     return res.status(200).json(updateProduct)
 }
