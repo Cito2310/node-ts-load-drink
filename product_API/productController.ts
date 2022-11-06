@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import { BodyInputProduct } from '../interfaces/bodyInputProduct';
+import { bodyUpdateProduct } from '../interfaces/bodyUpdateProduct';
 
 import { Product } from './productModel';
 
@@ -31,9 +32,32 @@ export const getProduct = async (req: Request, res: Response) => {
 export const removeProduct = async (req: Request, res: Response) => {
     const id = req.params.id;
 
+    // check exist product with id
     const existProduct = await Product.findById(id);
     if (!existProduct) {return res.status(404).json({msg: "product id not exist"})}
 
+    // remove product with id
     await Product.findByIdAndDelete(id);
     return res.status(200).json({msg: "product removed successfully"})
+}
+
+export const updateProduct = async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const { __v, _id, amount, ...product } = req.body as bodyUpdateProduct;
+
+    // check exist product with id
+    const existProduct = await Product.findById(id);
+    if (!existProduct) {return res.status(404).json({msg: "product id not exist"})}
+
+    // create payload
+    let payload = {} as bodyUpdateProduct;
+    if (product.brand) { payload.brand = product.brand }
+    if (product.category) { payload.category = product.category }
+    if (product.flavor) { payload.flavor = product.flavor }
+    if (product.location) { payload.location = product.location }
+    if (product.size) { payload.size = product.size }
+
+    // update product
+    const updateProduct = await Product.findByIdAndUpdate(id, payload, { new: true });
+    return res.status(200).json(updateProduct)
 }

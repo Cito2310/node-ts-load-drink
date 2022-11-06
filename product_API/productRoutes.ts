@@ -4,7 +4,7 @@ import { check } from "express-validator";
 import { checkFields } from '../middlewares/checkFields';
 import { checkSizeUnit } from '../middlewares/checks';
 
-import { createProduct, getProduct, removeProduct } from './productController';
+import { createProduct, getProduct, removeProduct, updateProduct } from './productController';
 
 export const routeProduct = Router();
 
@@ -39,3 +39,25 @@ routeProduct.delete("/:id", [
     check("id", "id must be a MongoId").isMongoId(),
     checkFields
 ], removeProduct)
+
+routeProduct.put("/:id", [
+    check("id", "id must be a MongoId").isMongoId(),
+
+    check("brand", "brand length can only be greater than 2 and less than 20").trim().optional().isLength({min:2, max: 20}),
+    check("brand", "brand must be a string").trim().optional().isString(),
+    
+    check("category", "category length can only be greater than 2 and less than 20").trim().optional().isLength({min:2, max: 20}),
+    check("category", "category must be a string").trim().optional().isString(),
+    
+    check("location", "location can only be less than 100 and greater than 0").trim().optional().isInt({ min: 0, max: 99 }),
+    check("location", "location must be a integer number").trim().optional().isInt(),
+
+    check("flavor", "flavor length can only be greater than 2 and less than 20").trim().optional().isLength({min:2, max: 20}),
+    check("flavor", "flavor must be a string").trim().optional().isString(),
+    
+    check("size", "size length can only be greater than 2 and less than 20").trim().optional().isLength({min:2, max: 20}),
+    check("size", "size must be a string").trim().optional().isString(),
+    check("size", "unit not valid - only 'l' 'ml' 'cc' 'oz'").trim().optional().custom(checkSizeUnit),
+
+    checkFields
+], updateProduct)
