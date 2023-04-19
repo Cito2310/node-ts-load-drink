@@ -4,9 +4,10 @@
   "description": "This is an API REST server that is made to manage the amount of drinks to load. This application is developed with node.js.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node ./dist/app.js",
+    "dev": "concurrently \"tsc -w\" \"node ./dist/app.js\"",
+    "start": "tsc && node ./dist/app.js",
     "build": "tsc",
+    
     "v-patch": "npm version patch --no-git-tag-version --force",
     "v-minor": "npm version minor --no-git-tag-version --force",
     "v-major": "npm version major --no-git-tag-version --force"
@@ -14,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^8.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
